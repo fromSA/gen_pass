@@ -1,9 +1,10 @@
 #!/usr/bin/python
 
-from random import randint
-import string, sys
-import numpy as np
 import getopt
+import string
+import sys
+from random import randint
+import numpy as np
 
 
 def main(argv):
@@ -12,12 +13,10 @@ def main(argv):
         opts, args = getopt.getopt(argv, "n:l:s:r:c:u:",
                                    ["name", "length", "symbol", "number", "lowercase", "uppercase"])
     except getopt.GetoptError:
-        print
-        'generate.py -n <name> -l <length> -s <symbol> -r <number> -c <lowercase> -u <uppercase>'
+        print('generate.py -n <name> -l <length> -s <symbol> -r <number> -c <lowercase> -u <uppercase>')
         sys.exit(2)
     if len(opts) == 0:
-        print
-        generate(**pars)
+        print(generate(**pars))
         sys.exit()
     for opt, arg in opts:
         dic = {'-n': "name",
@@ -32,8 +31,7 @@ def main(argv):
 
     password = generate(**pars)
 
-    print
-    "password:", password
+    print("password:", password)
 
 
 def generate(length, symbol=True, number=True, lowercase=True, uppercase=True, name=""):
@@ -44,16 +42,16 @@ def generate(length, symbol=True, number=True, lowercase=True, uppercase=True, n
 
     symbols = np.array(['@', '%', '#', '$'])
     numbers = map(str, range(0, 10))
-    lowercases = list(string.lowercase)
-    uppercases = list(string.uppercase)
+    lower_cases = list(string.lowercase)
+    upper_cases = list(string.uppercase)
 
-    possiblechars = []
+    possible_chars = []
     for par in chars:
         if par:
-            possiblechars += chars[par]
-    xs = [randint(0, len(possiblechars) - 1) for p in range(length)]
-    possiblechars = np.array(possiblechars)
-    password = possiblechars[xs]
+            possible_chars += chars[par]
+    xs = [randint(0, len(possible_chars) - 1) for _ in range(length)]
+    possible_chars = np.array(possible_chars)
+    password = possible_chars[xs]
     password = ''.join(password)
 
     with open("passwords.txt", "a+") as f:
